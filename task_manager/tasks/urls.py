@@ -17,4 +17,8 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
+
+    path('tasks/', views.TaskListCreateAPIView.as_view(), name='api-task-list-create'),
+    path('tasks/<int:pk>/', views.TaskRetrieveUpdateDestroyAPIView.as_view(), name='api-task-detail'),
+    path('tasks/create/', views.TaskCreateView.as_view(), name='api-task-create'),
 ]
