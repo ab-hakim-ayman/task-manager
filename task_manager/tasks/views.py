@@ -48,6 +48,31 @@ class TaskListView(ListView):
     template_name = 'tasks/task_list.html'
     context_object_name = 'tasks'
 
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        queryset = Task.objects.all()
+        title_contains = self.request.GET.get('title_contains')
+        priority = self.request.GET.get('priority')
+        is_complete = self.request.GET.get('is_complete')
+
+        if title_contains:
+            queryset = queryset.filter(title__icontains=title_contains)
+
+        if priority:
+            queryset = queryset.filter(priority=priority)
+
+        if is_complete:
+            is_complete = is_complete.lower() == 'true'
+            queryset = queryset.filter(is_complete=is_complete)
+
+        return queryset
+
+
+        if query:
+            return Task.objects.filter(title__icontains=query)
+        else:
+            return Task.objects.all()
+
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from .models import Task

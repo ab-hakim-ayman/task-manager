@@ -12,7 +12,41 @@
                     <h2 class="mb-0">Task List</h2>
                 </div>
                 <div class="card-body">
-                    <ul class="list-group">
+                    <form method="get" action="{% url 'task-list' %}">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="q" placeholder="Search by title" value="{{ query }}">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                    <form method="get" action="{% url 'task-list' %}">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" name="title_contains" placeholder="Title contains" value="{{ request.GET.title_contains }}">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <select class="form-control" name="priority">
+                                    <option value="">Select Priority</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <select class="form-control" name="is_complete">
+                                    <option value="">Select Completion</option>
+                                    <option value="true">Complete</option>
+                                    <option value="false">Incomplete</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <ul class="list-group mt-3">
                         {% for task in tasks %}
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <a href="{% url 'task-detail' task.pk %}">{{ task.title }}</a>
