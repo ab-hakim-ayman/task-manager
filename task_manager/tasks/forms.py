@@ -11,10 +11,7 @@ class TaskForm(forms.ModelForm):
         super(TaskForm, self).__init__(*args, **kwargs)
         self.fields['title'].widget.attrs.update({'class': 'form-control'})
         self.fields['description'].widget.attrs.update({'class': 'form-control'})
-        self.fields['description'].required = False  
         self.fields['due_date'].widget.attrs.update({'class': 'form-control datepicker'})
-        self.fields['due_date'].required = False  
         self.fields['photos'].widget.attrs.update({'class': 'form-control-file'})
-        self.fields['photos'].required = False  
         self.fields['priority'].widget.attrs.update({'class': 'form-control'})
         self.fields['is_complete'].widget.attrs.update({'class': 'form-check-input'})

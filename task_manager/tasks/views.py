@@ -69,16 +69,18 @@ class TaskListView(ListView):
     template_name = 'tasks/task_list.html'
     context_object_name = 'tasks'
 
+   
     def get_queryset(self):
-        query = self.request.GET.get('q')
-        queryset = Task.objects.all()
-        title_contains = self.request.GET.get('title_contains')
+        queryset = Task.objects.filter()
+        created_at = self.request.GET.get('created_at')
+        due_date = self.request.GET.get('due_date')
         priority = self.request.GET.get('priority')
         is_complete = self.request.GET.get('is_complete')
 
-        if title_contains:
-            queryset = queryset.filter(title__icontains=title_contains)
-
+        if created_at:
+            queryset = queryset.filter(created_at=created_at)
+        if due_date:
+            queryset = queryset.filter(due_date=due_date)
         if priority:
             queryset = queryset.filter(priority=priority)
 
@@ -88,11 +90,19 @@ class TaskListView(ListView):
 
         return queryset
 
+    
+def search(request):
+    query = request.GET.get('q')
+    if query:
+        tasks= Task.objects.filter(title__icontains=query)
+    else:
+        tasks = Task.objects.all()
 
-        if query:
-            return Task.objects.filter(title__icontains=query)
-        else:
-            return Task.objects.all()
+    return render(request, 'tasks/task_list.html', {'tasks':tasks})
+
+
+
+        
 
 
 class TaskCreateView(CreateView):
